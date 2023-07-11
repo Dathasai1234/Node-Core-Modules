@@ -1,79 +1,8 @@
-//! Creating a fully functional web server.
-
 const http = require('http');
-const fs = require('fs');
 
-//! method 1
+const routes = require('./routes');
 
-// function rqListener(req, res) {
-
-// }
-
-// http.createServer(rqListener);
-
-//***************************************************
-//! method 2 Anoynomous function
-
-// http.createServer(function(req, res) {
-    
-// });
-
-//***************************************************
-/*
-    If X happen, Y should happen
-
-    X - request comes
-    Y - Please execute these functions
-*/
-
-//***************************************************
-//! method 3 next Gen function
-
-const server = http.createServer((req, res) => {  // Create a server using the http.createServer() method.
-    const url = req.url;
-    const method = req.method;
-
-    if(url === '/') {
-        res.write('<html>');  // Write the opening html tag to the response.
-        res.write('<head><title>Enter Message</title></head>');  // Write the head section of the HTML.
-        res.write('<body><form action="/message" method="POST"><input type="text" name="message"/><button type="submit">Send<button/><form/></body>');  // Write the body section of the HTML.
-        res.write('</html>');  // Write the closing html tag to the response.
-    
-        return res.end();  // End the response and send it to the client.
-    }
-
-    if(url === '/message' && method === 'POST') {
-        const body = [];
-        req.on('data', (chunk) => {
-            console.log(chunk);
-            body.push(chunk);
-        })
-        //! the data event will be fired whenever a new chunk is ready to be read.
-
-        return req.on('end', () => {
-            const parsedBody = Buffer.concat(body).toString();
-            const message = parsedBody.split('=')[1];
-            fs.writeFile('message.txt', message, (err) => {
-                res.statusCode = 302;
-                res.setHeader('location', '/');
-                return res.end;
-            });
-        })
-    }
-    
-    res.setHeader('content-Type', 'text/html');  // Set the content type of the response to 'text/html'.
-
-    res.write('<html>');  // Write the opening html tag to the response.
-    res.write('<head><title>My first page</title></head>');  // Write the head section of the HTML.
-    res.write('<body><h1>Welcome to the node.js server</h1></body>');  // Write the body section of the HTML.
-    res.write('</html>');  // Write the closing html tag to the response.
-
-    res.end();  // End the response and send it to the client.
-});
-
-// stored in a constant variable as the createserver methord returns an instance of a server.
-// typically you don't call process.exit() in your code, because you don't want to quit your server. It will never take any further requests.
-// You can always do that by pressing CTRL + C in the terminal/ command prompt window where you started your server (i.e. where you ran node app.js).
+const server = http.createServer(routes);
 
 server.listen(3000);
 
