@@ -32,7 +32,7 @@ const fs = require('fs');
 const server = http.createServer((req, res) => {  // Create a server using the http.createServer() method.
     const url = req.url;
     const method = req.method;
-    
+
     if(url === '/') {
         res.write('<html>');  // Write the opening html tag to the response.
         res.write('<head><title>Enter Message</title></head>');  // Write the head section of the HTML.
@@ -43,7 +43,19 @@ const server = http.createServer((req, res) => {  // Create a server using the h
     }
 
     if(url === '/message' && method === 'POST') {
-        fs.writeFileSync('message.txt', 'DUMMY');
+        const body = [];
+        req.on('data', (chunk) => {
+            console.log(chunk);
+            body.push(chunk);
+        })
+        //! the data event will be fired whenever a new chunk is ready to be read.
+
+        req.on('end', () => {
+            const parsedBody = Buffer.concat(body).toString();
+            const message = parsedBody.split('=')[1];
+            fs.writeFileSync('message.txt', message);
+        })
+
         res.statusCode = 302;
         res.setHeader('location', '/');
         return res.end;
