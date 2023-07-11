@@ -35,4 +35,6 @@ const server = http.createServer((req, res) => {
 
 // stored in a constant variable as the createserver methord returns an instance of a server.
 // typically you don't call process.exit() in your code, because you don't want to quit your server. It will never take any further requests.
+// You can always do that by pressing CTRL + C in the terminal/ command prompt window where you started your server (i.e. where you ran node app.js).
+
 server.listen(3000);
