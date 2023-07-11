@@ -50,15 +50,15 @@ const server = http.createServer((req, res) => {  // Create a server using the h
         })
         //! the data event will be fired whenever a new chunk is ready to be read.
 
-        req.on('end', () => {
+        return req.on('end', () => {
             const parsedBody = Buffer.concat(body).toString();
             const message = parsedBody.split('=')[1];
-            fs.writeFileSync('message.txt', message);
+            fs.writeFile('message.txt', message, (err) => {
+                res.statusCode = 302;
+                res.setHeader('location', '/');
+                return res.end;
+            });
         })
-
-        res.statusCode = 302;
-        res.setHeader('location', '/');
-        return res.end;
     }
     
     res.setHeader('content-Type', 'text/html');  // Set the content type of the response to 'text/html'.
