@@ -1,6 +1,7 @@
 //! Creating a fully functional web server.
 
 const http = require('http');
+const fs = require('fs');
 
 //! method 1
 
@@ -30,6 +31,8 @@ const http = require('http');
 
 const server = http.createServer((req, res) => {  // Create a server using the http.createServer() method.
     const url = req.url;
+    const method = req.method;
+    
     if(url === '/') {
         res.write('<html>');  // Write the opening html tag to the response.
         res.write('<head><title>Enter Message</title></head>');  // Write the head section of the HTML.
@@ -37,6 +40,13 @@ const server = http.createServer((req, res) => {  // Create a server using the h
         res.write('</html>');  // Write the closing html tag to the response.
     
         return res.end();  // End the response and send it to the client.
+    }
+
+    if(url === '/message' && method === 'POST') {
+        fs.writeFileSync('message.txt', 'DUMMY');
+        res.statusCode = 302;
+        res.setHeader('location', '/');
+        return res.end;
     }
     
     res.setHeader('content-Type', 'text/html');  // Set the content type of the response to 'text/html'.
