@@ -29,9 +29,10 @@ const http = require('http');
 //! method 3 next Gen function
 
 const server = http.createServer((req, res) => {
-    console.log(req);
+    console.log(req);   // in the eventloop
+    process.exit();     // stops the eventloop and exits the server
 });
 
 // stored in a constant variable as the createserver methord returns an instance of a server.
-
+// typically you don't call process.exit() in your code, because you don't want to quit your server. It will never take any further requests.
 server.listen(3000);
