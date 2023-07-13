@@ -1,19 +1,25 @@
 const express = require('express');
+//! import body parser
+const bodyParser = require('body-parser');
 
 const app = express();
 
-app.use('/', (req, res, next) => {
-    console.log("This works everytime");
-    next();
-});
+///***************************************************
+//! body-parser above all the middlewares
+app.use(bodyParser.urlencoded({extended: false}))
 
 app.use('/add-product', (req, res, next) => {
-    console.log("This is a middleware");
-    res.send('<h1>This is add-product path</h1>');
+    res.send('<form action="/product" method="POST"><input type="text" name="title"/> <button type="submit">Add Product<button/><form/>');
+});
+
+app.use('/product', (res, req) => {
+    console.log(res.body);
+    ///***************************************************
+    //! which redirects to that specific url
+    req.redirect('/');
 });
 
 app.use('/', (req, res, next) => {
-    console.log("This is another middleware");
     res.send('<h1>This is url path</h1>');
 }); 
 
