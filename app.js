@@ -12,11 +12,11 @@ app.use('/add-product', (req, res, next) => {
     res.send('<form action="/product" method="POST"><input type="text" name="title"/> <button type="submit">Add Product<button/><form/>');
 });
 
-app.use('/product', (res, req) => {
-    console.log(res.body);
-    ///***************************************************
+app.post('/product', (req, res, next) => {
+    console.log(req.body);
+    //***************************************************
     //! which redirects to that specific url
-    req.redirect('/');
+    res.redirect('/');
 });
 
 app.use('/', (req, res, next) => {
