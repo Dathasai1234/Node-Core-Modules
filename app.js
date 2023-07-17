@@ -14,6 +14,7 @@ const app = express();
 ///***************************************************
 //! body-parser above all the middlewares
 app.use(bodyParser.urlencoded({extended: false}))
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/admin', adminroutes);
 app.use(shoproutes);
