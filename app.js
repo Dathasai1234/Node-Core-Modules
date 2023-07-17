@@ -12,7 +12,7 @@ const app = express();
 //! body-parser above all the middlewares
 app.use(bodyParser.urlencoded({extended: false}))
 
-app.use(adminroutes);
+app.use('/admin', adminroutes);
 app.use(shoproutes);
 
 app.use((req, res, next) => {
