@@ -1,8 +1,7 @@
 const express = require('express');
-
 const path = require('path');
 
-const adminroutes = require('./routes/admin'); 
+const adminData = require('./routes/admin'); 
 const shoproutes = require('./routes/shop'); 
 const rootdir = require('./Util/path');
 
@@ -16,7 +15,7 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/admin', adminroutes);
+app.use('/admin', adminData.routes);
 app.use(shoproutes);
 
 app.use((req, res, next) => {
