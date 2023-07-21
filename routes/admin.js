@@ -9,7 +9,7 @@ const products = [];
 // /admin/add-product => GET
 router.get('/add-product', (req, res, next) => {
     // res.sendFile(path.join(rootdir, 'views', 'add-product.html'));
-    res.render('add-product', {'docTitle': 'add-product'});
+    res.render('add-product', {docTitle: 'add-product', path: '/admin/add-product'});
 });
 
 // /admin/add-product => POST
